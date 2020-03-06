@@ -181,7 +181,7 @@
     <Compile Include="Controllers\Add_deviceController.cs" />
     <Compile Include="Controllers\DeleteDeviceController.cs" />
     <Compile Include="Controllers\DeviceJoinController.cs" />
-    <Compile Include="Controllers\EnesController.cs" />
+    <Compile Include="Controllers\ImportCSVController.cs" />
     <Compile Include="Controllers\InsertDeviceController.cs" />
     <Compile Include="Controllers\Luk_Controller.cs" />
     <Compile Include="Controllers\ReadCSVController.cs" />
