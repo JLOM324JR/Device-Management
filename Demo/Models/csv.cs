@@ -14,6 +14,6 @@ namespace Demo.Controllers
         public string ModelID = "M0001";
         public string CMTypeID = "CT001";
         public string Device_StatusID = "S0001";
-        public string ContractID = "S0002";
+        public string ContractID = "S0001";
     }
 }

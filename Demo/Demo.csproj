@@ -188,6 +188,7 @@
     <Compile Include="Controllers\testController.cs" />
     <Compile Include="Controllers\testCSVController.cs" />
     <Compile Include="Controllers\testpuinunController.cs" />
+    <Compile Include="Controllers\UpdateCsvController.cs" />
     <Compile Include="Controllers\UpdateDeviceController.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Controllers\DeviceController.cs" />

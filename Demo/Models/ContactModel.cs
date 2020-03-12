@@ -7,6 +7,8 @@ namespace Demo.Controllers
 {
     public class ContactModel
     {
+        
+
         public string description { get; set; }
 
         //Luk_Application
@@ -49,12 +51,12 @@ namespace Demo.Controllers
 
 
 
-        public object InsertManufacturer { get; set; }
+        public string InsertManufacturer { get; set; }
         public object InsertAppPlatID { get; set; }
         public object InsertStatusID { get; set; }
         public object InsertIoTPlatID { get; set; }
         public object InsertCmTypeID { get; set; }
-        public object InsertModelID { get; set; }
+        public string InsertModelID { get; set; }
         public string Model { get; set; }
 
 
@@ -76,5 +78,13 @@ namespace Demo.Controllers
         
         public object InsertEmail { get; set; }
         public object InsertName { get;  set; }
+
+
+
+        //Import CSV
+         public string dataAll { get; set; }
+        public string contractnumberid { get; set; }
+
+
     }
 }

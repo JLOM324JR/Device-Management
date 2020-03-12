@@ -12,17 +12,14 @@ using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Web.Http.Cors;
 
-//using System.Web.HttpContext.Current.Server.MapPath();
-
 namespace Demo.Controllers
 {
     [EnableCors("*", "*", "*")]
-    public class importCSVController : ApiController
+    public class UpdateCsvController : ApiController
     {
-        [HttpPost]
-        [Route("import/csv")]
-
-        public HttpResponseMessage ReadCSVFile([FromBody] ContactModel import)
+        [HttpPut]
+        [Route("update/csv")]
+        public HttpResponseMessage ReadCSVFile([FromBody] csv csv)
         {
             string msg = "";
 
@@ -53,11 +50,11 @@ namespace Demo.Controllers
                     string Device_StatusName = "";
                     string ContractName = "";
 
+                    string filepath = "D:/Api/Demo/Demo/csv/device.csv";
 
-                    string dataimport = import.dataAll.ToString();
-                    
-                    string[] trans = new[] { import.dataAll };
-                    DataTable dtTmp = CsvToDatatable(trans);
+                    string[] readAllLine = File.ReadAllLines(filepath);
+                    DataTable dtTmp = CsvToDatatable(readAllLine);
+                    DataTable dtSave = dtTmp.Clone();
 
 
 
@@ -94,44 +91,45 @@ namespace Demo.Controllers
 
 
 
-                    if (import.InsertManufacturer == ManufacturerID)
+                    if (csv.manufacturerID == ManufacturerID)
                     {
-                        
+                        //ManufacturerName = ManufacturerName.Replace(" ", "");
+                        //ManufacturerName = ManufacturerName.Replace(" ", String.Empty);
                         dtTmp.Columns.Remove("" + ManufacturerName);
 
 
                     }
-                    if (import.InsertFirmware == FirmwareID)
+                    if (csv.FirmwareID == FirmwareID)
                     {
                         dtTmp.Columns.Remove("" + FirmwareName);
                         dtTmp.AcceptChanges();
                     }
-                    if (import.InsertGateWayID == GatewayID)
+                    if (csv.GatewareID == GatewayID)
                     {
                         dtTmp.Columns.Remove("" + GatewayName);
                         dtTmp.AcceptChanges();
                     }
-                    if (import.InsertAppID == ApplicationID)
+                    if (csv.ApplicationID == ApplicationID)
                     {
                         dtTmp.Columns.Remove("" + ApplicationName);
                         dtTmp.AcceptChanges();
                     }
-                    if (import.InsertModelID == ModelID)
+                    if (csv.ModelID == ModelID)
                     {
                         dtTmp.Columns.Remove("" + ModelName);
                         dtTmp.AcceptChanges();
                     }
-                    if (import.CmTypeId == CMTypeID)
+                    if (csv.CMTypeID == CMTypeID)
                     {
                         dtTmp.Columns.Remove("" + CMTypeName);
                         dtTmp.AcceptChanges();
                     }
-                    if (import.statusDevice == Device_StatusID)
+                    if (csv.Device_StatusID == Device_StatusID)
                     {
                         dtTmp.Columns.Remove("" + Device_StatusName);
                         dtTmp.AcceptChanges();
                     }
-                    if (import.contractnumberid == ContractID)
+                    if (csv.ContractID == ContractID)
                     {
                         dtTmp.Columns.Remove("" + ContractName);
                         dtTmp.AcceptChanges();
@@ -142,12 +140,13 @@ namespace Demo.Controllers
                     }
 
                     dtTmp.AcceptChanges();
-
+                    //DataTable dtCsv = new DataTable();
+                    //dtCsv.Rows.Add(dtTmp);
                     DataTable data = new DataTable();
-
+                    //dtTmp.Rows[0][0].ToString()
 
                     DataTable dtUnSave = dtTmp.Clone();
-                    DataTable dtSave = dtTmp.Clone();
+                    //DataTable dtSave = dtTmp.Clone();
                     List<string> strImei = new List<string>();
                     List<string> strImeiCsv = new List<string>();
                     string query = "select IMEI from Csv";
@@ -156,7 +155,7 @@ namespace Demo.Controllers
                     con.Open();
 
                     SqlDataReader drImei = cmd.ExecuteReader();
-
+                    
 
 
 
@@ -182,10 +181,18 @@ namespace Demo.Controllers
                             string csvImei = dtTmp.Rows[i]["IMEI"].ToString().Trim();
                             if (csvImei == db)
                             {
-                                DataRow dr = dtUnSave.NewRow();
+                                DataRow dr = dtSave.NewRow();
+                                dr[ManufacturerName] = csv.manufacturerID;
+                                dr[FirmwareName] = csv.FirmwareID;
+                                dr[GatewayName] = csv.GatewareID;
+                                dr[ApplicationName] = csv.ApplicationID;
+                                dr[ModelName] = csv.ModelID;
+                                dr[CMTypeName] = csv.CMTypeID;
+                                dr[Device_StatusName] = csv.Device_StatusID;
+                                dr[ContractName] = csv.ContractID;
                                 dr["IMEI"] = dtTmp.Rows[i]["IMEI"].ToString().Trim();
                                 dr["Serial_Number"] = dtTmp.Rows[i]["Serial_Number"].ToString().Trim();
-                                dtUnSave.Rows.Add(dr);
+                                dtSave.Rows.Add(dr);
                                 DataRow drdr = dtTmp.Rows[i];
                                 drdr.Delete();
                                 dtTmp.AcceptChanges();
@@ -208,9 +215,9 @@ namespace Demo.Controllers
                     using (SqlBulkCopy SqlBulkCopy = new SqlBulkCopy(con.ConnectionString, SqlBulkCopyOptions.TableLock))
                     {
 
-                        SqlBulkCopy.DestinationTableName = "Csv";
+                        SqlBulkCopy.DestinationTableName = "Device";
                         SqlBulkCopy.BatchSize = dtTmp.Rows.Count;
-
+                        //con.Open();
                         SqlBulkCopy.WriteToServer(dtTmp);
                         SqlBulkCopy.Close();
                         con.Close();
@@ -228,40 +235,20 @@ namespace Demo.Controllers
         public DataTable CsvToDatatable(string[] lines)
         {
             DataTable dt = new DataTable();
-            
-            
-           
-            
-            
-            string[] value_cutone = lines[0].Split('[',']');
-
-            
-
-            string[] stringSeparators = new string[] { "\\r\\n"};
-            string[] lines2 = value_cutone[1].Split(stringSeparators, StringSplitOptions.None);
-            
-            string[] testss = lines2[0].Split(',', '\"');
-            
-           
-            
-
-
-
-
-            for (int i = 1; i < testss.Length; i++)
+            string[] value = lines[0].Split(',');
+            foreach (string header in value)
             {
-                dt.Columns.Add(new DataColumn(testss[i]));
+                dt.Columns.Add(new DataColumn(header));
             }
 
-            for (int i = 1; i < ((lines2.Length)-2); i++)
+            for (int i = 1; i < lines.Length; i++)
             {
-                string[] lineline = lines2[i].Split(',');
-                dt.Rows.Add(lineline);
-
+                string[] line = lines[i].Split(',');
+                dt.Rows.Add(line);
             }
 
             return dt;
-           ;
+
         }
 
 
@@ -272,6 +259,3 @@ namespace Demo.Controllers
 
     }
 }
-
-
-
