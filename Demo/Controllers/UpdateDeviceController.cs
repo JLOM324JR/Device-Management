@@ -32,7 +32,7 @@ namespace Demo.Controllers
                     command.Parameters.AddWithValue("@ModelID", update.InsertModelID);
                     command.Parameters.AddWithValue("@Communication_Media_TypeID", update.CmTypeId);
                     command.Parameters.AddWithValue("@Device_StatusID", update.statusDevice);
-                    command.Parameters.AddWithValue("@ContractNumber", update.contractnumber);
+                    command.Parameters.AddWithValue("@ContractID", update.contractnumber);
 
                     sqlCon.Open();
                     int i = command.ExecuteNonQuery();

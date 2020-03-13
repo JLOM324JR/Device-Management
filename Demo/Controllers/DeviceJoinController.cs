@@ -49,7 +49,7 @@ namespace Demo.Controllers
                     result.Model = reader["model"].ToString().Trim();
                     result.CmTypeId = reader["name_Commu"].ToString().Trim();
                     result.statusDevice = reader["status_device"].ToString().Trim();
-                    result.contractnumber = reader["ContractNumber"].ToString().Trim();
+                    result.contractnumber = reader["ContractID"].ToString().Trim();
                     results.Add(result);
                 }
 

@@ -32,7 +32,7 @@ namespace Demo.Controllers
                     command.Parameters.AddWithValue("@ModelID", addDevice.InsertModelID);
                     command.Parameters.AddWithValue("@Communication_Media_TypeID", addDevice.CmTypeId);
                     command.Parameters.AddWithValue("@Device_StatusID", addDevice.statusDevice);
-                    command.Parameters.AddWithValue("@ContractNumber", addDevice.contractnumber);
+                    command.Parameters.AddWithValue("@ContractID", addDevice.contractnumber);
                     
 
                     sqlCon.Open();
