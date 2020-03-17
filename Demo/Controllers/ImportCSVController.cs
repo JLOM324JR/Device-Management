@@ -57,7 +57,7 @@ namespace Demo.Controllers
 
 
                     string dataimport = import.dataAll.ToString();
-                    
+
                     string[] trans = new[] { import.dataAll };
                     DataTable dtTmp = CsvToDatatable(trans);
                     //clone dataTable dtTmp
@@ -179,26 +179,26 @@ namespace Demo.Controllers
                             if (csvImei == db)
                             {
                                 DataRow dr = dtUnSave.NewRow();
-                                
-                                dr[""+ManufacturerName] = dtTmp.Rows[i][""+ManufacturerName].ToString().Trim();
-                                dr[""+ FirmwareName] = dtTmp.Rows[i][""+ FirmwareName].ToString().Trim();
-                                dr[""+ GatewayName] = dtTmp.Rows[i][""+ GatewayName].ToString().Trim();
-                                dr[""+ ApplicationName] = dtTmp.Rows[i][""+ ApplicationName].ToString().Trim();
-                                dr[""+ ModelName] = dtTmp.Rows[i][""+ ModelName].ToString().Trim();
-                                dr[""+ CMTypeName] = dtTmp.Rows[i][""+ CMTypeName].ToString().Trim();
-                                dr[""+ Device_StatusName] = dtTmp.Rows[i][""+ Device_StatusName].ToString().Trim();
-                                dr[""+ ContractName] = dtTmp.Rows[i][""+ ContractName].ToString().Trim();
-                                dr[""+ ImeiName] = dtTmp.Rows[i][""+ ImeiName].ToString().Trim();
-                                dr[""+ serial_name] = dtTmp.Rows[i][""+serial_name].ToString().Trim();
+
+                                dr["" + ManufacturerName] = dtTmp.Rows[i]["" + ManufacturerName].ToString().Trim();
+                                dr["" + FirmwareName] = dtTmp.Rows[i]["" + FirmwareName].ToString().Trim();
+                                dr["" + GatewayName] = dtTmp.Rows[i]["" + GatewayName].ToString().Trim();
+                                dr["" + ApplicationName] = dtTmp.Rows[i]["" + ApplicationName].ToString().Trim();
+                                dr["" + ModelName] = dtTmp.Rows[i]["" + ModelName].ToString().Trim();
+                                dr["" + CMTypeName] = dtTmp.Rows[i]["" + CMTypeName].ToString().Trim();
+                                dr["" + Device_StatusName] = dtTmp.Rows[i]["" + Device_StatusName].ToString().Trim();
+                                dr["" + ContractName] = dtTmp.Rows[i]["" + ContractName].ToString().Trim();
+                                dr["" + ImeiName] = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
+                                dr["" + serial_name] = dtTmp.Rows[i]["" + serial_name].ToString().Trim();
                                 dtUnSave.Rows.Add(dr);
                                 DataRow drdr = dtTmp.Rows[i];
                                 drdr.Delete();
                                 dtTmp.AcceptChanges();
-                                
+
                             }
 
                         }
-                        
+
 
 
 
@@ -261,22 +261,22 @@ namespace Demo.Controllers
         public DataTable CsvToDatatable(string[] lines)
         {
             DataTable dt = new DataTable();
-            
-            
-           
-            
-            
-            string[] value_cutone = lines[0].Split('[',']');
 
-            
 
-            string[] stringSeparators = new string[] { "\\r\\n"};
+
+
+
+            string[] value_cutone = lines[0].Split('[', ']');
+
+
+
+            string[] stringSeparators = new string[] { "\\r\\n" };
             string[] lines2 = value_cutone[1].Split(stringSeparators, StringSplitOptions.None);
-            
+
             string[] testss = lines2[0].Split(',', '\"');
-            
-           
-            
+
+
+
 
 
 
@@ -286,7 +286,7 @@ namespace Demo.Controllers
                 dt.Columns.Add(new DataColumn(testss[i]));
             }
 
-            for (int i = 1; i < ((lines2.Length)-1); i++)
+            for (int i = 1; i < ((lines2.Length) - 1); i++)
             {
                 string[] lineline = lines2[i].Split(',');
                 dt.Rows.Add(lineline);
@@ -294,7 +294,7 @@ namespace Demo.Controllers
             }
 
             return dt;
-           ;
+            ;
         }
 
 
@@ -305,6 +305,3 @@ namespace Demo.Controllers
 
     }
 }
-
-
-

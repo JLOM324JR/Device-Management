@@ -49,6 +49,8 @@ namespace Demo.Controllers
                     string CMTypeName = "";
                     string Device_StatusName = "";
                     string ContractName = "";
+                    string ImeiName = "";
+                    string serial_name = "";
 
                     string filepath = "D:/Api/Demo/Demo/csv/device.csv";
 
@@ -68,6 +70,8 @@ namespace Demo.Controllers
                         CMTypeName = dtTmp.Columns[5].ToString();
                         Device_StatusName = dtTmp.Columns[6].ToString();
                         ContractName = dtTmp.Columns[7].ToString();
+                        ImeiName = dtTmp.Columns[8].ToString();
+                        serial_name = dtTmp.Columns[9].ToString();
                     }
 
                     for (int i = 0; i < dtTmp.Rows.Count; i++)
@@ -89,143 +93,121 @@ namespace Demo.Controllers
 
 
 
-
-
-                    if (csv.manufacturerID == ManufacturerID)
-                    {
-                        //ManufacturerName = ManufacturerName.Replace(" ", "");
-                        //ManufacturerName = ManufacturerName.Replace(" ", String.Empty);
-                        dtTmp.Columns.Remove("" + ManufacturerName);
-
-
-                    }
-                    if (csv.FirmwareID == FirmwareID)
-                    {
-                        dtTmp.Columns.Remove("" + FirmwareName);
-                        dtTmp.AcceptChanges();
-                    }
-                    if (csv.GatewareID == GatewayID)
-                    {
-                        dtTmp.Columns.Remove("" + GatewayName);
-                        dtTmp.AcceptChanges();
-                    }
-                    if (csv.ApplicationID == ApplicationID)
-                    {
-                        dtTmp.Columns.Remove("" + ApplicationName);
-                        dtTmp.AcceptChanges();
-                    }
-                    if (csv.ModelID == ModelID)
-                    {
-                        dtTmp.Columns.Remove("" + ModelName);
-                        dtTmp.AcceptChanges();
-                    }
-                    if (csv.CMTypeID == CMTypeID)
-                    {
-                        dtTmp.Columns.Remove("" + CMTypeName);
-                        dtTmp.AcceptChanges();
-                    }
-                    if (csv.Device_StatusID == Device_StatusID)
-                    {
-                        dtTmp.Columns.Remove("" + Device_StatusName);
-                        dtTmp.AcceptChanges();
-                    }
-                    if (csv.ContractID == ContractID)
-                    {
-                        dtTmp.Columns.Remove("" + ContractName);
-                        dtTmp.AcceptChanges();
-                    }
-                    else
-                    {
-                        string pp = "bad";
-                    }
-
-                    dtTmp.AcceptChanges();
-                    //DataTable dtCsv = new DataTable();
-                    //dtCsv.Rows.Add(dtTmp);
-                    DataTable data = new DataTable();
-                    //dtTmp.Rows[0][0].ToString()
-
                     DataTable dtUnSave = dtTmp.Clone();
-                    //DataTable dtSave = dtTmp.Clone();
+                    DataTable data = new DataTable();
                     List<string> strImei = new List<string>();
                     List<string> strImeiCsv = new List<string>();
-                    string query = "select IMEI from Csv";
-                    SqlCommand cmd = new SqlCommand(query, con);
+                    string query = "select IMEI from Device";
+                    SqlCommand command = new SqlCommand(query, con);
 
                     con.Open();
 
-                    SqlDataReader drImei = cmd.ExecuteReader();
-                    
-
-
-
-
-
+                    SqlDataReader drImei = command.ExecuteReader();
                     while (drImei.Read())
                     {
                         strImei.Add(drImei.GetValue(0).ToString().Trim());
                     }
-
+                    con.Close();
                     int a = dtTmp.Rows.Count;
-
-
                     for (int i = 0; i < dtTmp.Rows.Count; i++)
 
 
                     {
-
-
-                        for (int dtSql = 0; dtSql < strImei.Count; dtSql++)
+                        if (dtTmp != null)
                         {
-                            string db = strImei[dtSql];
-                            string csvImei = dtTmp.Rows[i]["IMEI"].ToString().Trim();
-                            if (csvImei == db)
+
+                            for (int dtSql = 0; dtSql < strImei.Count; dtSql++)
                             {
-                                DataRow dr = dtSave.NewRow();
-                                dr[ManufacturerName] = csv.manufacturerID;
-                                dr[FirmwareName] = csv.FirmwareID;
-                                dr[GatewayName] = csv.GatewareID;
-                                dr[ApplicationName] = csv.ApplicationID;
-                                dr[ModelName] = csv.ModelID;
-                                dr[CMTypeName] = csv.CMTypeID;
-                                dr[Device_StatusName] = csv.Device_StatusID;
-                                dr[ContractName] = csv.ContractID;
-                                dr["IMEI"] = dtTmp.Rows[i]["IMEI"].ToString().Trim();
-                                dr["Serial_Number"] = dtTmp.Rows[i]["Serial_Number"].ToString().Trim();
-                                dtSave.Rows.Add(dr);
-                                DataRow drdr = dtTmp.Rows[i];
-                                drdr.Delete();
-                                dtTmp.AcceptChanges();
+                                if (strImei != null)
+                                {
+                                    string db = strImei[dtSql];
+                                    string csvImei = dtTmp.Rows[i]["IMEI"].ToString().Trim();
+                                    if (csvImei == db)
+                                    {
+                                        //ถ้าตรงเก็บใน SAVE
+                                        DataRow dr = dtSave.NewRow();
+                                        dr["" + ManufacturerName] = dtTmp.Rows[i]["" + ManufacturerName].ToString().Trim();
+                                        dr["" + FirmwareName] = dtTmp.Rows[i]["" + FirmwareName].ToString().Trim();
+                                        dr["" + GatewayName] = dtTmp.Rows[i]["" + GatewayName].ToString().Trim();
+                                        dr["" + ApplicationName] = dtTmp.Rows[i]["" + ApplicationName].ToString().Trim();
+                                        dr["" + ModelName] = dtTmp.Rows[i]["" + ModelName].ToString().Trim();
+                                        dr["" + CMTypeName] = dtTmp.Rows[i]["" + CMTypeName].ToString().Trim();
+                                        dr["" + Device_StatusName] = dtTmp.Rows[i]["" + Device_StatusName].ToString().Trim();
+                                        dr["" + ContractName] = dtTmp.Rows[i]["" + ContractName].ToString().Trim();
+                                        dr["" + ImeiName] = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
+                                        dr["" + serial_name] = dtTmp.Rows[i]["" + serial_name].ToString().Trim();
+                                        dtSave.Rows.Add(dr);
+                                        dtSave.AcceptChanges();
+                                        DataRow drdr = dtTmp.Rows[i];
+                                        drdr.Delete();
+                                        dtTmp.AcceptChanges();
+                                        if (dtSave.Rows.Count > 0)
+                                        {
+                                            con.Open();
+                                            SqlCommand cmd = new SqlCommand("BulkUpDate", con);
+                                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                                            for (int y = 0; y < dtSave.Rows.Count; y++)
+                                            {
+
+                                                cmd.Parameters.AddWithValue("@ManufacturerID", dtSave.Rows[y]["" + ManufacturerName].ToString());
+                                                cmd.Parameters.AddWithValue("@Firmware", dtSave.Rows[y]["" + FirmwareName].ToString());
+                                                cmd.Parameters.AddWithValue("@GateWayID", dtSave.Rows[y]["" + GatewayName].ToString());
+                                                cmd.Parameters.AddWithValue("@ApplicationID", dtSave.Rows[y]["" + ApplicationName].ToString());
+                                                cmd.Parameters.AddWithValue("@ModelID", dtSave.Rows[y]["" + ModelName].ToString());
+                                                cmd.Parameters.AddWithValue("@Communication_Media_TypeID", dtSave.Rows[y]["" + CMTypeName].ToString());
+                                                cmd.Parameters.AddWithValue("@Device_StatusID", dtSave.Rows[y]["" + Device_StatusName].ToString());
+                                                cmd.Parameters.AddWithValue("@ContractID", dtSave.Rows[y]["" + ContractName].ToString());
+                                                cmd.Parameters.AddWithValue("@IMEI", dtSave.Rows[y]["" + ImeiName].ToString());
+                                                cmd.Parameters.AddWithValue("@Serial_Number", dtSave.Rows[y]["" + serial_name].ToString());
+
+
+                                                int num = cmd.ExecuteNonQuery();
+                                                if (num > 0)
+                                                {
+                                                    msg = "Update Complete";
+                                                }
+                                                else
+                                                {
+                                                    msg = "Can't Update values.";
+                                                }
+                                                con.Close();
+                                            }
+
+                                        }
+                                    }
+
+                                }
                             }
 
                         }
+                        else
+                        {
+                            break;
+                        }
+
+                    }
 
 
+
+
+
+
+
+
+                        int pp = 2; 
+
+
+                        
 
 
 
                     }
-
-
-
-
-
-
-
-                    using (SqlBulkCopy SqlBulkCopy = new SqlBulkCopy(con.ConnectionString, SqlBulkCopyOptions.TableLock))
-                    {
-
-                        SqlBulkCopy.DestinationTableName = "Device";
-                        SqlBulkCopy.BatchSize = dtTmp.Rows.Count;
-                        //con.Open();
-                        SqlBulkCopy.WriteToServer(dtTmp);
-                        SqlBulkCopy.Close();
-                        con.Close();
-
-                    }
-                }
+                
             }
+
             catch (Exception ex)
+            
+            
             {
                 msg = ex.ToString();
             }
