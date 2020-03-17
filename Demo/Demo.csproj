@@ -184,6 +184,7 @@
     <Compile Include="Controllers\ImportCSVController.cs" />
     <Compile Include="Controllers\InsertDeviceController.cs" />
     <Compile Include="Controllers\Luk_Controller.cs" />
+    <Compile Include="Controllers\MultiDeleteController.cs" />
     <Compile Include="Controllers\ReadCSVController.cs" />
     <Compile Include="Controllers\testController.cs" />
     <Compile Include="Controllers\testCSVController.cs" />
