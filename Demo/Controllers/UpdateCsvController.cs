@@ -115,12 +115,11 @@ namespace Demo.Controllers
 
 
                     {
-                        if (dtTmp != null)
-                        {
+                        
 
                             for (int dtSql = 0; dtSql < strImei.Count; dtSql++)
                             {
-                                if (strImei != null)
+                                if (dtTmp != null)
                                 {
                                     string db = strImei[dtSql];
                                     string csvImei = dtTmp.Rows[i]["IMEI"].ToString().Trim();
@@ -143,47 +142,49 @@ namespace Demo.Controllers
                                         DataRow drdr = dtTmp.Rows[i];
                                         drdr.Delete();
                                         dtTmp.AcceptChanges();
+                                    for (int y = 0; y < dtSave.Rows.Count; y++)
+                                    {
+
+                                        SqlCommand cmd = new SqlCommand("BulkUpDate", con);
+                                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                                        cmd.Parameters.AddWithValue("@ManufacturerID", dtSave.Rows[y]["" + ManufacturerName].ToString());
+                                        cmd.Parameters.AddWithValue("@Firmware", dtSave.Rows[y]["" + FirmwareName].ToString());
+                                        cmd.Parameters.AddWithValue("@GateWayID", dtSave.Rows[y]["" + GatewayName].ToString());
+                                        cmd.Parameters.AddWithValue("@ApplicationID", dtSave.Rows[y]["" + ApplicationName].ToString());
+                                        cmd.Parameters.AddWithValue("@ModelID", dtSave.Rows[y]["" + ModelName].ToString());
+                                        cmd.Parameters.AddWithValue("@Communication_Media_TypeID", dtSave.Rows[y]["" + CMTypeName].ToString());
+                                        cmd.Parameters.AddWithValue("@Device_StatusID", dtSave.Rows[y]["" + Device_StatusName].ToString());
+                                        cmd.Parameters.AddWithValue("@ContractID", dtSave.Rows[y]["" + ContractName].ToString());
+                                        cmd.Parameters.AddWithValue("@IMEI", dtSave.Rows[y]["" + ImeiName].ToString());
+                                        cmd.Parameters.AddWithValue("@Serial_Number", dtSave.Rows[y]["" + serial_name].ToString());
+
+
+                                        cmd.Connection = con;
+                                        con.Open();
+                                        cmd.ExecuteNonQuery();
+                                        con.Close();
 
 
 
                                     }
 
+
                                 }
-                            }
 
+                                }
+                                else
+                                {
+                                    break;
+                                }
                         }
-                        else
-                        {
-                            break;
-                        }
+
+                        
+                        
+                        
 
                     }
 
-                    for (int y = 0; y < dtSave.Rows.Count; y++)
-                    {
-
-                        SqlCommand cmd = new SqlCommand("BulkUpDate", con);
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@ManufacturerID", dtSave.Rows[y]["" + ManufacturerName].ToString());
-                        cmd.Parameters.AddWithValue("@Firmware", dtSave.Rows[y]["" + FirmwareName].ToString());
-                        cmd.Parameters.AddWithValue("@GateWayID", dtSave.Rows[y]["" + GatewayName].ToString());
-                        cmd.Parameters.AddWithValue("@ApplicationID", dtSave.Rows[y]["" + ApplicationName].ToString());
-                        cmd.Parameters.AddWithValue("@ModelID", dtSave.Rows[y]["" + ModelName].ToString());
-                        cmd.Parameters.AddWithValue("@Communication_Media_TypeID", dtSave.Rows[y]["" + CMTypeName].ToString());
-                        cmd.Parameters.AddWithValue("@Device_StatusID", dtSave.Rows[y]["" + Device_StatusName].ToString());
-                        cmd.Parameters.AddWithValue("@ContractID", dtSave.Rows[y]["" + ContractName].ToString());
-                        cmd.Parameters.AddWithValue("@IMEI", dtSave.Rows[y]["" + ImeiName].ToString());
-                        cmd.Parameters.AddWithValue("@Serial_Number", dtSave.Rows[y]["" + serial_name].ToString());
-
-
-                        cmd.Connection = con;
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-                        con.Close();
-
-
-
-                    }
+                    
 
 
 
