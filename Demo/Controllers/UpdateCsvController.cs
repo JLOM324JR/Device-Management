@@ -101,7 +101,7 @@ namespace Demo.Controllers
                     SqlCommand command = new SqlCommand(query, con);
 
                     con.Open();
-                    
+
 
                     SqlDataReader drImei = command.ExecuteReader();
                     while (drImei.Read())
@@ -110,7 +110,7 @@ namespace Demo.Controllers
                     }
                     con.Close();
                     int a = dtTmp.Rows.Count;
-                    
+
                     for (int i = 0; i < dtTmp.Rows.Count; i++)
 
 
@@ -143,9 +143,9 @@ namespace Demo.Controllers
                                         DataRow drdr = dtTmp.Rows[i];
                                         drdr.Delete();
                                         dtTmp.AcceptChanges();
-                                        
 
-                                       
+
+
                                     }
 
                                 }
@@ -158,10 +158,10 @@ namespace Demo.Controllers
                         }
 
                     }
-                    
+
                     for (int y = 0; y < dtSave.Rows.Count; y++)
                     {
-                        
+
                         SqlCommand cmd = new SqlCommand("BulkUpDate", con);
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@ManufacturerID", dtSave.Rows[y]["" + ManufacturerName].ToString());
@@ -175,38 +175,38 @@ namespace Demo.Controllers
                         cmd.Parameters.AddWithValue("@IMEI", dtSave.Rows[y]["" + ImeiName].ToString());
                         cmd.Parameters.AddWithValue("@Serial_Number", dtSave.Rows[y]["" + serial_name].ToString());
 
-                       
+
                         cmd.Connection = con;
                         con.Open();
                         cmd.ExecuteNonQuery();
                         con.Close();
 
-                        
-
-                    }
-
-
-
-
-
-
-
-
-
-                    int pp = 2; 
-
-
-                        
-
 
 
                     }
-                
+
+
+
+
+
+
+
+
+
+                    int pp = 2;
+
+
+
+
+
+
+                }
+
             }
 
             catch (Exception ex)
-            
-            
+
+
             {
                 msg = ex.ToString();
             }

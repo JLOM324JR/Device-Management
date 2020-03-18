@@ -97,136 +97,180 @@ namespace Demo.Controllers
 
 
 
-
-
-                    if (import.InsertManufacturer == ManufacturerID)
-                    {
-                        string hd = "feeer";
-                    }
-                    else if (import.InsertFirmware == FirmwareID)
-                    {
-                        string sd = "feeer";
-                    }
-                    else if (import.InsertGateWayID == GatewayID)
-                    {
-                        string art = "feeer";
-                    }
-                    else if (import.InsertAppID == ApplicationID)
-                    {
-                        string wer = "feeer";
-                    }
-                    else if (import.InsertModelID == ModelID)
-                    {
-                        string awe = "feeer";
-                    }
-                    else if (import.CmTypeId == CMTypeID)
-                    {
-                        string awer = "feeer";
-                    }
-                    else if (import.statusDevice == Device_StatusID)
-                    {
-                        string sawd = "feeer";
-                    }
-                    else if (import.contractnumberid == ContractID)
-                    {
-                        string awqe = "feeer";
-                    }
-                    else
-                    {
-                        string pp = "bad";
-                    }
-
-                    dtTmp.AcceptChanges();
-
                     DataTable data = new DataTable();
-
-
                     DataTable dtUnSave = dtTmp.Clone();
                     DataTable dtSave = dtTmp.Clone();
                     List<string> strImei = new List<string>();
                     List<string> strImeiCsv = new List<string>();
-                    string query = "select IMEI from Device";
-                    SqlCommand cmd = new SqlCommand(query, con);
-
-                    con.Open();
-
-                    SqlDataReader drImei = cmd.ExecuteReader();
-
-
-
-
-
-
-                    while (drImei.Read())
+                    if (import.InsertManufacturer == ManufacturerID)
                     {
-                        strImei.Add(drImei.GetValue(0).ToString().Trim());
-                    }
-
-                    int a = dtTmp.Rows.Count;
-
-
-                    //check dupicate imei in csv and Device database(Device Table)
-                    for (int i = 0; i < dtTmp.Rows.Count; i++)
-
-
-                    {
-
-
-                        for (int dtSql = 0; dtSql < strImei.Count; dtSql++)
+                        if (import.InsertFirmware == FirmwareID)
                         {
-                            string db = strImei[dtSql];
-                            string csvImei = dtTmp.Rows[i]["IMEI"].ToString().Trim();
-                            if (csvImei == db)
+                            if (import.InsertGateWayID == GatewayID)
                             {
-                                DataRow dr = dtUnSave.NewRow();
+                                if (import.InsertAppID == ApplicationID)
+                                {
+                                    if (import.InsertModelID == ModelID)
+                                    {
+                                        if (import.CmTypeId == CMTypeID)
+                                        {
+                                            if (import.statusDevice == Device_StatusID)
+                                            {
+                                                if (import.contractnumberid == ContractID)
+                                                {
+                                                    string query = "select IMEI from Device";
+                                                    SqlCommand cmd = new SqlCommand(query, con);
+                                                    con.Open();
+                                                    SqlDataReader drImei = cmd.ExecuteReader();
 
-                                dr["" + ManufacturerName] = dtTmp.Rows[i]["" + ManufacturerName].ToString().Trim();
-                                dr["" + FirmwareName] = dtTmp.Rows[i]["" + FirmwareName].ToString().Trim();
-                                dr["" + GatewayName] = dtTmp.Rows[i]["" + GatewayName].ToString().Trim();
-                                dr["" + ApplicationName] = dtTmp.Rows[i]["" + ApplicationName].ToString().Trim();
-                                dr["" + ModelName] = dtTmp.Rows[i]["" + ModelName].ToString().Trim();
-                                dr["" + CMTypeName] = dtTmp.Rows[i]["" + CMTypeName].ToString().Trim();
-                                dr["" + Device_StatusName] = dtTmp.Rows[i]["" + Device_StatusName].ToString().Trim();
-                                dr["" + ContractName] = dtTmp.Rows[i]["" + ContractName].ToString().Trim();
-                                dr["" + ImeiName] = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
-                                dr["" + serial_name] = dtTmp.Rows[i]["" + serial_name].ToString().Trim();
-                                dtUnSave.Rows.Add(dr);
-                                DataRow drdr = dtTmp.Rows[i];
-                                drdr.Delete();
-                                dtTmp.AcceptChanges();
+                                                    while (drImei.Read())
+                                                    {
+                                                        strImei.Add(drImei.GetValue(0).ToString().Trim());
+                                                    }
+
+                                                    int a = dtTmp.Rows.Count;
+
+
+                                                    //check dupicate imei in csv and Device database(Device Table)
+                                                    for (int i = 0; i < dtTmp.Rows.Count; i++)
+                                                    {
+                                                        DataRow drdr = dtTmp.Rows[i];
+                                                        
+                                                        for (int dtSql = 0; dtSql < strImei.Count; dtSql++)
+                                                            {
+                                                            
+                                                                if (strImei != null)
+                                                                {
+                                                                    string db = strImei[dtSql];
+                                                                    string csvImei = dtTmp.Rows[i]["IMEI"].ToString().Trim();
+                                                                    int kk = i;
+                                                                    if (csvImei == db)
+                                                                    {
+                                                                        DataRow dr = dtUnSave.NewRow();
+
+                                                                        dr["" + ManufacturerName] = dtTmp.Rows[i]["" + ManufacturerName].ToString().Trim();
+                                                                        dr["" + FirmwareName] = dtTmp.Rows[i]["" + FirmwareName].ToString().Trim();
+                                                                        dr["" + GatewayName] = dtTmp.Rows[i]["" + GatewayName].ToString().Trim();
+                                                                        dr["" + ApplicationName] = dtTmp.Rows[i]["" + ApplicationName].ToString().Trim();
+                                                                        dr["" + ModelName] = dtTmp.Rows[i]["" + ModelName].ToString().Trim();
+                                                                        dr["" + CMTypeName] = dtTmp.Rows[i]["" + CMTypeName].ToString().Trim();
+                                                                        dr["" + Device_StatusName] = dtTmp.Rows[i]["" + Device_StatusName].ToString().Trim();
+                                                                        dr["" + ContractName] = dtTmp.Rows[i]["" + ContractName].ToString().Trim();
+                                                                        dr["" + ImeiName] = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
+                                                                        dr["" + serial_name] = dtTmp.Rows[i]["" + serial_name].ToString().Trim();
+                                                                        dtUnSave.Rows.Add(dr);
+
+                                                                        drdr.Delete();
+                                                                        dtTmp.AcceptChanges();
+                                                                        break;
+                                                                }//end if (csvImei == db)
+                                                                }//end if (strImei != null)
+
+                                                            }
+
+                                                            int jj = i;  
+
+                                                    }//for (int i = 0; i < dtTmp.Rows.Count; i++)
+                                                }//if (import.contractnumberid == ContractID)
+                                            }
+                                            
+                                        }
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                    
+
+                    dtTmp.AcceptChanges();
+
+                        //check dupicate imei in csv and Device database(Device Table)
+                        for (int i = 0; i < dtTmp.Rows.Count; i++)
+                        {
+                            DataRow drdr = dtTmp.Rows[i];
+
+                            for (int dtSql = 0; dtSql < strImei.Count; dtSql++)
+                            {
+
+                                if (strImei != null)
+                                {
+                                    string db = strImei[dtSql];
+                                    string csvImei = dtTmp.Rows[i]["IMEI"].ToString().Trim();
+                                    int kk = i;
+                                    if (csvImei == db)
+                                    {
+                                        DataRow dr = dtUnSave.NewRow();
+
+                                        dr["" + ManufacturerName] = dtTmp.Rows[i]["" + ManufacturerName].ToString().Trim();
+                                        dr["" + FirmwareName] = dtTmp.Rows[i]["" + FirmwareName].ToString().Trim();
+                                        dr["" + GatewayName] = dtTmp.Rows[i]["" + GatewayName].ToString().Trim();
+                                        dr["" + ApplicationName] = dtTmp.Rows[i]["" + ApplicationName].ToString().Trim();
+                                        dr["" + ModelName] = dtTmp.Rows[i]["" + ModelName].ToString().Trim();
+                                        dr["" + CMTypeName] = dtTmp.Rows[i]["" + CMTypeName].ToString().Trim();
+                                        dr["" + Device_StatusName] = dtTmp.Rows[i]["" + Device_StatusName].ToString().Trim();
+                                        dr["" + ContractName] = dtTmp.Rows[i]["" + ContractName].ToString().Trim();
+                                        dr["" + ImeiName] = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
+                                        dr["" + serial_name] = dtTmp.Rows[i]["" + serial_name].ToString().Trim();
+                                        dtUnSave.Rows.Add(dr);
+
+                                        drdr.Delete();
+                                        dtTmp.AcceptChanges();
+                                        break;
+                                    }//end if (csvImei == db)
+                                }//end if (strImei != null)
 
                             }
 
-                        }
+                            int jj = i;
+
+                        }//for (int i = 0; i < dtTmp.Rows.Count; i++)
 
 
 
 
 
-                    }
 
-                    //check dupicate imei in datatable dtTmp
-                    for (int i = 0; i < dtTmp.Rows.Count; i++)
+
+
+
+
+
+
+
+                        //check dupicate imei in csv and Device database(Device Table)
+
+
+                        //check dupicate imei in datatable dtTmp
+                        for (int i = 0; i < dtTmp.Rows.Count; i++)
                     {
                         for (int j = 0; j < dtTmp.Rows.Count; j++)
                         {
-                            if (dtTmp.Rows[i] == dtTmp.Rows[j])
+                            string testA = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
+                            if (dtTmp.Rows[i] != dtTmp.Rows[j])
                             {
-                                DataRow dr_dupicate = dtUnSave.NewRow();
-                                dr_dupicate["" + ManufacturerName] = dtTmp.Rows[i]["" + ManufacturerName].ToString().Trim();
-                                dr_dupicate["" + FirmwareName] = dtTmp.Rows[i]["" + FirmwareName].ToString().Trim();
-                                dr_dupicate["" + GatewayName] = dtTmp.Rows[i]["" + GatewayName].ToString().Trim();
-                                dr_dupicate["" + ApplicationName] = dtTmp.Rows[i]["" + ApplicationName].ToString().Trim();
-                                dr_dupicate["" + ModelName] = dtTmp.Rows[i]["" + ModelName].ToString().Trim();
-                                dr_dupicate["" + CMTypeName] = dtTmp.Rows[i]["" + CMTypeName].ToString().Trim();
-                                dr_dupicate["" + Device_StatusName] = dtTmp.Rows[i]["" + Device_StatusName].ToString().Trim();
-                                dr_dupicate["" + ContractName] = dtTmp.Rows[i]["" + ContractName].ToString().Trim();
-                                dr_dupicate["" + ImeiName] = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
-                                dr_dupicate["" + serial_name] = dtTmp.Rows[i]["" + serial_name].ToString().Trim();
-                                dtUnSave.Rows.Add(dr_dupicate);
-                                DataRow drdr = dtTmp.Rows[i];
-                                drdr.Delete();
-                                dtTmp.AcceptChanges();
+                                string testB = dtTmp.Rows[j]["" + ImeiName].ToString().Trim();
+                                if (testA == testB)
+                                {
+                                    DataRow dr_dupicate = dtUnSave.NewRow();
+                                    dr_dupicate["" + ManufacturerName] = dtTmp.Rows[i]["" + ManufacturerName].ToString().Trim();
+                                    dr_dupicate["" + FirmwareName] = dtTmp.Rows[i]["" + FirmwareName].ToString().Trim();
+                                    dr_dupicate["" + GatewayName] = dtTmp.Rows[i]["" + GatewayName].ToString().Trim();
+                                    dr_dupicate["" + ApplicationName] = dtTmp.Rows[i]["" + ApplicationName].ToString().Trim();
+                                    dr_dupicate["" + ModelName] = dtTmp.Rows[i]["" + ModelName].ToString().Trim();
+                                    dr_dupicate["" + CMTypeName] = dtTmp.Rows[i]["" + CMTypeName].ToString().Trim();
+                                    dr_dupicate["" + Device_StatusName] = dtTmp.Rows[i]["" + Device_StatusName].ToString().Trim();
+                                    dr_dupicate["" + ContractName] = dtTmp.Rows[i]["" + ContractName].ToString().Trim();
+                                    dr_dupicate["" + ImeiName] = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
+                                    dr_dupicate["" + serial_name] = dtTmp.Rows[i]["" + serial_name].ToString().Trim();
+                                    dtUnSave.Rows.Add(dr_dupicate);
+                                    DataRow drdr = dtTmp.Rows[i];
+                                    drdr.Delete();
+                                    dtTmp.AcceptChanges();
+                                }
                             }
                         }
 
@@ -248,6 +292,12 @@ namespace Demo.Controllers
                         SqlBulkCopy.Close();
                         con.Close();
 
+                    }
+                    }
+
+                    else
+                    {
+                        string pp = "bad";
                     }
                 }
             }
