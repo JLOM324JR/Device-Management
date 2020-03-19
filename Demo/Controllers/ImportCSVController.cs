@@ -24,7 +24,10 @@ namespace Demo.Controllers
 
         public HttpResponseMessage ReadCSVFile([FromBody] ContactModel import)
         {
+            ContactModel gg = new ContactModel();
             string msg = "";
+            
+            DataSet dsData = new DataSet();
 
             try
             {
@@ -82,14 +85,14 @@ namespace Demo.Controllers
                     {
                         for (int k = 0; k < dtTmp.Columns.Count; k++)
                         {
-                            ManufacturerID = dtTmp.Rows[0][0].ToString();
-                            FirmwareID = dtTmp.Rows[0][1].ToString();
-                            GatewayID = dtTmp.Rows[0][2].ToString();
-                            ApplicationID = dtTmp.Rows[0][3].ToString();
-                            ModelID = dtTmp.Rows[0][4].ToString();
-                            CMTypeID = dtTmp.Rows[0][5].ToString();
-                            Device_StatusID = dtTmp.Rows[0][6].ToString();
-                            ContractID = dtTmp.Rows[0][7].ToString();
+                            ManufacturerID = dtTmp.Rows[0][0].ToString().Trim();
+                            FirmwareID = dtTmp.Rows[0][1].ToString().Trim();
+                            GatewayID = dtTmp.Rows[0][2].ToString().Trim();
+                            ApplicationID = dtTmp.Rows[0][3].ToString().Trim();
+                            ModelID = dtTmp.Rows[0][4].ToString().Trim();
+                            CMTypeID = dtTmp.Rows[0][5].ToString().Trim();
+                            Device_StatusID = dtTmp.Rows[0][6].ToString().Trim();
+                            ContractID = dtTmp.Rows[0][7].ToString().Trim();
                         }
 
                     }
@@ -135,58 +138,58 @@ namespace Demo.Controllers
                                                     for (int i = 0; i < dtTmp.Rows.Count; i++)
                                                     {
                                                         DataRow drdr = dtTmp.Rows[i];
-                                                        
+
                                                         for (int dtSql = 0; dtSql < strImei.Count; dtSql++)
+                                                        {
+
+                                                            if (strImei != null)
                                                             {
-                                                            
-                                                                if (strImei != null)
+                                                                string db = strImei[dtSql];
+                                                                string csvImei = dtTmp.Rows[i]["IMEI"].ToString().Trim();
+                                                                int kk = i;
+                                                                if (csvImei == db)
                                                                 {
-                                                                    string db = strImei[dtSql];
-                                                                    string csvImei = dtTmp.Rows[i]["IMEI"].ToString().Trim();
-                                                                    int kk = i;
-                                                                    if (csvImei == db)
-                                                                    {
-                                                                        DataRow dr = dtUnSave.NewRow();
+                                                                    DataRow dr = dtUnSave.NewRow();
 
-                                                                        dr["" + ManufacturerName] = dtTmp.Rows[i]["" + ManufacturerName].ToString().Trim();
-                                                                        dr["" + FirmwareName] = dtTmp.Rows[i]["" + FirmwareName].ToString().Trim();
-                                                                        dr["" + GatewayName] = dtTmp.Rows[i]["" + GatewayName].ToString().Trim();
-                                                                        dr["" + ApplicationName] = dtTmp.Rows[i]["" + ApplicationName].ToString().Trim();
-                                                                        dr["" + ModelName] = dtTmp.Rows[i]["" + ModelName].ToString().Trim();
-                                                                        dr["" + CMTypeName] = dtTmp.Rows[i]["" + CMTypeName].ToString().Trim();
-                                                                        dr["" + Device_StatusName] = dtTmp.Rows[i]["" + Device_StatusName].ToString().Trim();
-                                                                        dr["" + ContractName] = dtTmp.Rows[i]["" + ContractName].ToString().Trim();
-                                                                        dr["" + ImeiName] = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
-                                                                        dr["" + serial_name] = dtTmp.Rows[i]["" + serial_name].ToString().Trim();
-                                                                        dtUnSave.Rows.Add(dr);
+                                                                    dr["" + ManufacturerName] = dtTmp.Rows[i]["" + ManufacturerName].ToString().Trim();
+                                                                    dr["" + FirmwareName] = dtTmp.Rows[i]["" + FirmwareName].ToString().Trim();
+                                                                    dr["" + GatewayName] = dtTmp.Rows[i]["" + GatewayName].ToString().Trim();
+                                                                    dr["" + ApplicationName] = dtTmp.Rows[i]["" + ApplicationName].ToString().Trim();
+                                                                    dr["" + ModelName] = dtTmp.Rows[i]["" + ModelName].ToString().Trim();
+                                                                    dr["" + CMTypeName] = dtTmp.Rows[i]["" + CMTypeName].ToString().Trim();
+                                                                    dr["" + Device_StatusName] = dtTmp.Rows[i]["" + Device_StatusName].ToString().Trim();
+                                                                    dr["" + ContractName] = dtTmp.Rows[i]["" + ContractName].ToString().Trim();
+                                                                    dr["" + ImeiName] = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
+                                                                    dr["" + serial_name] = dtTmp.Rows[i]["" + serial_name].ToString().Trim();
+                                                                    dtUnSave.Rows.Add(dr);
 
-                                                                        drdr.Delete();
-                                                                        dtTmp.AcceptChanges();
-                                                                        break;
+                                                                    drdr.Delete();
+                                                                    dtTmp.AcceptChanges();
+                                                                    break;
                                                                 }//end if (csvImei == db)
-                                                                }//end if (strImei != null)
+                                                            }//end if (strImei != null)
 
-                                                            }
+                                                        }
 
-                                                            int jj = i;  
+                                                        int jj = i;
 
                                                     }//for (int i = 0; i < dtTmp.Rows.Count; i++)
                                                 }//if (import.contractnumberid == ContractID)
                                             }
-                                            
+
                                         }
-                                        
+
                                     }
-                                    
+
                                 }
-                                
+
                             }
-                            
+
                         }
                         
-                    
 
-                    dtTmp.AcceptChanges();
+
+                        dtTmp.AcceptChanges();
 
                         //check dupicate imei in csv and Device database(Device Table)
                         for (int i = 0; i < dtTmp.Rows.Count; i++)
@@ -246,53 +249,55 @@ namespace Demo.Controllers
 
                         //check dupicate imei in datatable dtTmp
                         for (int i = 0; i < dtTmp.Rows.Count; i++)
-                    {
-                        for (int j = 0; j < dtTmp.Rows.Count; j++)
                         {
-                            string testA = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
-                            if (dtTmp.Rows[i] != dtTmp.Rows[j])
+                            for (int j = 0; j < dtTmp.Rows.Count; j++)
                             {
-                                string testB = dtTmp.Rows[j]["" + ImeiName].ToString().Trim();
-                                if (testA == testB)
+                                string testA = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
+                                if (dtTmp.Rows[i] != dtTmp.Rows[j])
                                 {
-                                    DataRow dr_dupicate = dtUnSave.NewRow();
-                                    dr_dupicate["" + ManufacturerName] = dtTmp.Rows[i]["" + ManufacturerName].ToString().Trim();
-                                    dr_dupicate["" + FirmwareName] = dtTmp.Rows[i]["" + FirmwareName].ToString().Trim();
-                                    dr_dupicate["" + GatewayName] = dtTmp.Rows[i]["" + GatewayName].ToString().Trim();
-                                    dr_dupicate["" + ApplicationName] = dtTmp.Rows[i]["" + ApplicationName].ToString().Trim();
-                                    dr_dupicate["" + ModelName] = dtTmp.Rows[i]["" + ModelName].ToString().Trim();
-                                    dr_dupicate["" + CMTypeName] = dtTmp.Rows[i]["" + CMTypeName].ToString().Trim();
-                                    dr_dupicate["" + Device_StatusName] = dtTmp.Rows[i]["" + Device_StatusName].ToString().Trim();
-                                    dr_dupicate["" + ContractName] = dtTmp.Rows[i]["" + ContractName].ToString().Trim();
-                                    dr_dupicate["" + ImeiName] = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
-                                    dr_dupicate["" + serial_name] = dtTmp.Rows[i]["" + serial_name].ToString().Trim();
-                                    dtUnSave.Rows.Add(dr_dupicate);
-                                    DataRow drdr = dtTmp.Rows[i];
-                                    drdr.Delete();
-                                    dtTmp.AcceptChanges();
+                                    string testB = dtTmp.Rows[j]["" + ImeiName].ToString().Trim();
+                                    if (testA == testB)
+                                    {
+                                        DataRow dr_dupicate = dtUnSave.NewRow();
+                                        dr_dupicate["" + ManufacturerName] = dtTmp.Rows[i]["" + ManufacturerName].ToString().Trim();
+                                        dr_dupicate["" + FirmwareName] = dtTmp.Rows[i]["" + FirmwareName].ToString().Trim();
+                                        dr_dupicate["" + GatewayName] = dtTmp.Rows[i]["" + GatewayName].ToString().Trim();
+                                        dr_dupicate["" + ApplicationName] = dtTmp.Rows[i]["" + ApplicationName].ToString().Trim();
+                                        dr_dupicate["" + ModelName] = dtTmp.Rows[i]["" + ModelName].ToString().Trim();
+                                        dr_dupicate["" + CMTypeName] = dtTmp.Rows[i]["" + CMTypeName].ToString().Trim();
+                                        dr_dupicate["" + Device_StatusName] = dtTmp.Rows[i]["" + Device_StatusName].ToString().Trim();
+                                        dr_dupicate["" + ContractName] = dtTmp.Rows[i]["" + ContractName].ToString().Trim();
+                                        dr_dupicate["" + ImeiName] = dtTmp.Rows[i]["" + ImeiName].ToString().Trim();
+                                        dr_dupicate["" + serial_name] = dtTmp.Rows[i]["" + serial_name].ToString().Trim();
+                                        dtUnSave.Rows.Add(dr_dupicate);
+                                        DataRow drdr = dtTmp.Rows[i];
+                                        drdr.Delete();
+                                        dtTmp.AcceptChanges();
+                                    }
                                 }
                             }
+
                         }
 
-                    }
 
 
 
+                        gg.responseData = dtUnSave.Copy();
+
+                        dsData.Tables.Add(gg.responseData);
 
 
+                        using (SqlBulkCopy SqlBulkCopy = new SqlBulkCopy(con.ConnectionString, SqlBulkCopyOptions.TableLock))
+                        {
 
+                            SqlBulkCopy.DestinationTableName = "Device";
+                            SqlBulkCopy.BatchSize = dtTmp.Rows.Count;
 
-                    using (SqlBulkCopy SqlBulkCopy = new SqlBulkCopy(con.ConnectionString, SqlBulkCopyOptions.TableLock))
-                    {
+                            SqlBulkCopy.WriteToServer(dtTmp);
+                            SqlBulkCopy.Close();
+                            con.Close();
 
-                        SqlBulkCopy.DestinationTableName = "Device";
-                        SqlBulkCopy.BatchSize = dtTmp.Rows.Count;
-
-                        SqlBulkCopy.WriteToServer(dtTmp);
-                        SqlBulkCopy.Close();
-                        con.Close();
-
-                    }
+                        }
                     }
 
                     else
@@ -305,7 +310,7 @@ namespace Demo.Controllers
             {
                 msg = ex.ToString();
             }
-            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent(msg) };
+            return Request.CreateResponse(HttpStatusCode.OK, dsData);
         }
 
         public DataTable CsvToDatatable(string[] lines)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -84,6 +85,7 @@ namespace Demo.Controllers
         //Import CSV
          public string dataAll { get; set; }
         public string contractnumberid { get; set; }
+        public DataTable responseData { get; set; }
 
 
     }
