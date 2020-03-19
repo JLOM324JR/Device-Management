@@ -47,39 +47,31 @@ namespace Demo.Controllers
         }
 
 
-    //    [HttpDelete]
-    //    [Route("delete/all")]
-    //    public string DeleteAll()
-    //    {
-    //        string msg = "";
-    //        try
-    //        {
+        [HttpDelete]
+        [Route("delete/all")]
+        public string DeleteAll()
+        {
+            string msg = "";
+            try
+            {
 
-    //            int result = 0;
-    //            SqlConnection sqlCon = new SqlConnection(@"Data Source=(local)\SQLEXPRESS;Initial Catalog=Device;Integrated Security=true");
-    //            SqlCommand command = new SqlCommand("TRUNCATE TABLE Device", sqlCon);
-                
+                int result = 0;
+                SqlConnection sqlCon = new SqlConnection(@"Data Source=(local)\SQLEXPRESS;Initial Catalog=Device;Integrated Security=true");
+                SqlCommand command = new SqlCommand("TRUNCATE TABLE Device", sqlCon);
 
+
+
+                sqlCon.Open();
+                result = command.ExecuteNonQuery();
                 
-    //            sqlCon.Open();
-    //            result = command.ExecuteNonQuery();
-    //            int i = result;
-    //            if (i > 0)
-    //            {
-    //                msg = "Delete Complete";
-    //            }
-    //            else
-    //            {
-    //                msg = "Can't Delete This Record.";
-    //            }
-    //            sqlCon.Close();
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            msg = ex.ToString();
-    //        }
-    //        return msg;
-    //    }
+                sqlCon.Close();
+            }
+            catch (Exception ex)
+            {
+                msg = ex.ToString();
+            }
+            return msg;
+        }
     }
 }
 
